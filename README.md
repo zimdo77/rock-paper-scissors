@@ -1,2 +1,11 @@
 # rock-paper-scissors
-Create a rock paper scissors game that can be played on the console.
+Create a "Rock, paper, scissors" game with a simple UI.
+
+## Aim
+- Implement basic HTML, CSS, and JavaScript.
+- Implement basic DOM manipulation and event handling.
+
+## GitHub demo
+<https://zimdo77.github.io/rock-paper-scissors>
+
+
