@@ -1,85 +1,101 @@
-function getHumanChoice() {
-    let userInput;
+const ROCK = 'rock';
+const PAPER = 'paper';
+const SCISSORS = 'scissors';
+const HUMAN = 'human';
+const COMPUTER = 'computer';
+const TIE = 'tie;'
+const STARTING_SCORE = 0;
+const WINNING_SCORE = 5;
 
-    while (true) {
-        userInput = prompt("Enter 'rock', 'paper', or 'scissors'");
-        userInput = userInput.toLowerCase();
+let humanScore = 0;
+let computerScore = 0;
 
-        if (userInput == 'rock' || userInput == 'paper'|| userInput == 'scissors') {
-            return userInput
-        }
+const buttons = document.querySelectorAll("button");
+const results = document.querySelector("#results");
+const liveHumanScore = document.querySelector("#humanScore");
+const liveComputerScore = document.querySelector("#computerScore");
 
-        console.log("Invalid input. Try again!");
-    }
-}
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        playRound(button.textContent, getComputerChoice())
+    });
+});
+
+///////////////
+// FUNCTIONS //
+///////////////
 
 function getComputerChoice() {
     let randomNum = Math.random();
 
     if (randomNum < 1/3) {
-        return 'rock';
+        return ROCK;
     } else if (randomNum < 2/3) {
-        return 'paper';
+        return PAPER;
     } else {
-        return 'scissors'
+        return SCISSORS;
     }
 }
 
-
 function determineRoundWinner(humanChoice, computerChoice) {
     if (humanChoice == computerChoice) {
-        return 'tie';
+        return TIE;
     }
 
     if (
-        (humanChoice == 'rock' && computerChoice == 'scissors') ||
-        (humanChoice == 'paper' && computerChoice == 'rock') ||
-        (humanChoice == 'scissors' && computerChoice == 'paper')
+        (humanChoice == ROCK && computerChoice == SCISSORS) ||
+        (humanChoice == PAPER && computerChoice == ROCK) ||
+        (humanChoice == SCISSORS && computerChoice == PAPER)
     ) {
-        return 'human';
+        return HUMAN;
     }
 
-    return 'computer';
+    return COMPUTER;
 
 }
 
 function playRound(humanChoice, computerChoice) {
     let roundWinner = determineRoundWinner(humanChoice, computerChoice);
 
-    if (roundWinner == 'tie') {
-        console.log("It's a tie!");
+    if (roundWinner == TIE) {
+        results.textContent = "It's a tie!";
     } else if (roundWinner == 'human') {
-        console.log(`You win, ${humanChoice} beats ${computerChoice}!`);
+        results.textContent = `You win, ${humanChoice} beats ${computerChoice}!`;
         humanScore++;
+        liveHumanScore.textContent = `You: ${humanScore}`;
     } else {
-        console.log(`You lose, ${computerChoice} beats ${humanChoice}!`)
+        results.textContent = `You lose, ${computerChoice} beats ${humanChoice}!`;
         computerScore++;
+        liveComputerScore.textContent = `Computer: ${computerScore}`;
     }
+
+    checkWinner();
 
 }
 
-function playGame() {
-    // Play 5 rounds
-    for (let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-    }
 
-    // Determine game winner
-    if (humanScore > computerScore) {
-        console.log("Game over. Congrats, you've won!");
-    } else if (humanScore < computerScore) {
-        console.log("Game over. Sorry, you've lost.")
-    } else {
-        console.log("Game over. It's a tie!")
+function checkWinner() {
+    if (humanScore == WINNING_SCORE) {
+        announceWinner(HUMAN);
+    } else if (computerScore == WINNING_SCORE) {
+        announceWinner(COMPUTER);
     }
-
 }
 
-let humanScore = 0;
-let computerScore = 0;
+function announceWinner(winner) {
+    const body = document.querySelector("body");
+    const winMessage = document.createElement("div");
+    const refreshMessage = document.createElement("div");
 
-playGame();
 
+    if (winner == HUMAN) {
+        winMessage.textContent = "Game over. Congrats, you've won!";
+    } else if (winner == COMPUTER) {
+        winMessage.textContent = "Game over. Sorry, you've lost!";
+    }
 
+    refreshMessage.textContent = "Refresh browser to play again.";
+
+    body.appendChild(winMessage);
+    body.appendChild(refreshMessage);
+}
