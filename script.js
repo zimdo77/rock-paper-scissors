@@ -16,14 +16,17 @@ const liveHumanScore = document.querySelector("#humanScore");
 const liveComputerScore = document.querySelector("#computerScore");
 
 buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-        playRound(button.textContent, getComputerChoice())
-    });
+    button.addEventListener("click", handleButtonClick);
 });
 
 ///////////////
 // FUNCTIONS //
 ///////////////
+
+function handleButtonClick(event) {
+    const buttonText = event.target.textContent;
+    playRound(buttonText, getComputerChoice());
+}
 
 function getComputerChoice() {
     let randomNum = Math.random();
@@ -73,7 +76,6 @@ function playRound(humanChoice, computerChoice) {
 
 }
 
-
 function checkWinner() {
     if (humanScore == WINNING_SCORE) {
         announceWinner(HUMAN);
@@ -98,4 +100,8 @@ function announceWinner(winner) {
 
     body.appendChild(winMessage);
     body.appendChild(refreshMessage);
+
+    buttons.forEach((button) => {
+        button.removeEventListener("click", handleButtonClick);
+    });
 }

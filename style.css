@@ -1,0 +1,29 @@
+body {
+    padding: 30px;
+    font-size: 20px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin: 20px;
+    padding: 20px;
+}
+
+button {
+    font-size: 100px;
+    padding: 20px;
+}
+
+#score {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    font-size: 50px;
+    margin: 30px;
+}
+
+#results {
+    margin-bottom: 20px;
+}
